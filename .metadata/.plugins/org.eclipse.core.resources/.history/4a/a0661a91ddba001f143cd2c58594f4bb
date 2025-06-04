@@ -1,0 +1,72 @@
+/**
+ * 
+ */
+package p4Hash;
+
+import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+/**
+ * @author uo299673
+ *
+ */
+class HashTableTest {
+	
+	/**
+	 * Pruebas hash lineal
+	 */
+	@Test
+	public void addRemoveLinearHashTest() {
+		ClosedHashTable hs = new ClosedHashTable<>(7, ClosedHashTable.LINEAL);
+		assertTrue(hs.add(-7));
+		assertTrue(hs.add(0));
+		assertTrue(hs.add(9));
+		assertTrue(hs.add(7));
+		assertTrue(hs.add(6));
+		assertTrue(hs.add(-5));
+		assertTrue(hs.add(0));
+		assertFalse(hs.add(0));
+		assertTrue(hs.add(-8));
+		assertFalse(hs.add(0));
+		assertTrue(hs.remove(-7));
+		assertTrue(hs.remove(0));
+		assertTrue(hs.remove(9));
+		assertTrue(hs.remove(7));
+		assertTrue(hs.remove(6));
+		assertTrue(hs.remove(-5));
+		assertTrue(hs.remove(0));
+		assertFalse(hs.remove(0));
+		
+		
+	}
+	/**
+	 * Pruebas hash cuadrática
+	 */
+	@Test
+	public void addRemoveQuadraticHashTest() {
+		ClosedHashTable hs = new ClosedHashTable<>(7, ClosedHashTable.CUADRATICA);
+		assertTrue(hs.add(-7));
+		assertTrue(hs.add(0));
+		assertTrue(hs.add(9));
+		assertTrue(hs.add(7));
+		assertTrue(hs.add(6));
+		assertTrue(hs.add(-5));
+		assertTrue(hs.add(0));
+		assertFalse(hs.add(0));
+		//assertTrue(hs.add(-8));
+		assertFalse(hs.add(0));
+		assertTrue(hs.remove(-7));
+		assertTrue(hs.remove(0));
+		assertTrue(hs.remove(9));
+		assertTrue(hs.remove(7));
+		assertTrue(hs.remove(6));
+		assertTrue(hs.remove(-5));
+		assertTrue(hs.remove(0));
+		assertFalse(hs.remove(0));
+		
+		
+	}
+}

@@ -1,0 +1,28 @@
+Fecha y hora: 2024-11-08T16:51:00.150943500
+Arbol prueba REMOVE inicial:
+			210
+		200
+			170
+	150
+		120
+100
+			90
+		70
+			60
+	50
+		30
+
+Fecha y hora: 2024-11-08T16:51:59.299140700
+Arbol prueba REMOVE inicial:
+			210
+		200
+			170
+	150
+		120
+100
+			90
+		70
+			60
+	50
+		30
+

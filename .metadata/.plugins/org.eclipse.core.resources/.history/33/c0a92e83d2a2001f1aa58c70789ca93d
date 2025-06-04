@@ -1,0 +1,89 @@
+package p3Arboles;
+
+public class AVLTree<T extends Comparable<T>> extends BSTree<T> {
+
+    public AVLTree() {
+        super();
+    }
+
+    @Override
+    public boolean addNode(T node) {
+        if (node == null) {
+            throw new NullPointerException("El nodo a añadir es null");
+        }
+        try {
+            if (getRoot() == null) {
+                AVLNode<T> newNode = new AVLNode<>(node);
+                setRoot(newNode);
+                return true;
+            } else {
+                setRoot(addRecursivo(node, getRoot()));
+            }
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+        return true;
+    }
+
+    private AVLNode<T> addRecursivo(T info, AVLNode<T> root) {
+        if (root == null) {
+            return new AVLNode<>(info);
+        }
+        
+        if (info.compareTo(root.getInfo()) < 0) {
+            root.setLeft(addRecursivo(info, root.getLeft()));
+        } else if (info.compareTo(root.getInfo()) > 0) {
+            root.setRight(addRecursivo(info, root.getRight()));
+        } else {
+            throw new IllegalArgumentException("Elemento ya existe en el árbol.");
+        }
+
+        // Después de insertar el nodo, actualizamos altura y balanceamos si es necesario
+        root.updateHeight();
+        return updateAndBalanceIfNecesary(root);
+    }
+
+    private AVLNode<T> updateAndBalanceIfNecesary(AVLNode<T> node) {
+        node.updateHeight();
+        int balance = node.getBF();
+
+        // Rotaciones según el balance factor
+        if (balance > 1) { // Desequilibrado a la derecha
+            if (node.getRight() != null && node.getRight().getBF() < 0) {
+                node.setRight(singleRightRotation(node.getRight()));
+            }
+            return singleLeftRotation(node);
+        } else if (balance < -1) { // Desequilibrado a la izquierda
+            if (node.getLeft() != null && node.getLeft().getBF() > 0) {
+                node.setLeft(singleLeftRotation(node.getLeft()));
+            }
+            return singleRightRotation(node);
+        }
+        return node;
+    }
+
+    private AVLNode<T> singleLeftRotation(AVLNode<T> node) {
+        AVLNode<T> newRoot = node.getRight();
+        node.setRight(newRoot.getLeft());
+        newRoot.setLeft(node);
+
+        node.updateHeight();
+        newRoot.updateHeight();
+        return newRoot;
+    }
+
+    private AVLNode<T> singleRightRotation(AVLNode<T> node) {
+        AVLNode<T> newRoot = node.getLeft();
+        node.setLeft(newRoot.getRight());
+        newRoot.setRight(node);
+
+        node.updateHeight();
+        newRoot.updateHeight();
+        return newRoot;
+    }
+
+    @Override
+    public AVLNode<T> getRoot() {
+        return (AVLNode<T>) super.getRoot();
+    }
+}

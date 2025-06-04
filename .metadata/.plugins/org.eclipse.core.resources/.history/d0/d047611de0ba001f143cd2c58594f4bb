@@ -1,0 +1,31 @@
+package p4Hash;
+
+public class main {
+
+	public static void main(String[] args) {
+		ClosedHashTable<Integer> hs = new ClosedHashTable<>(5, 1);
+//		hs.add(-7);
+//		hs.add(0);
+//		hs.add(9);
+//		hs.add(7);
+//		hs.add(6);
+//		hs.add(-5);
+//		hs.add(-8);
+//		hs.add(14);
+//		hs.remove(9);
+//		hs.remove(14);
+//		hs.remove(-7);
+//		hs.add(-7);
+		hs.add(4);
+		hs.add(13);
+		hs.add(24);
+		hs.add(3);
+		hs.remove(3);
+		hs.remove(24);
+		hs.remove(13);
+		//hs.add(24);
+		System.out.println(hs);
+
+	}
+
+}

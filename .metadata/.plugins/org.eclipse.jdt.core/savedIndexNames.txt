@@ -1,0 +1,20 @@
+INDEX VERSION 1.131+C:\Users\Elías\OneDrive\Escritorio\Software\2do\ED\.metadata\.plugins\org.eclipse.jdt.core
+43771754.index
+2225410166.index
+822753482.index
+1679928961.index
+1940817474.index
+2750944374.index
+2151413530.index
+1460072622.index
+2321115673.index
+2096951730.index
+2259484738.index
+12854641.index
+3481280991.index
+1470223440.index
+2355522519.index
+1865797976.index
+2724182444.index
+3678810901.index
+2957041532.index

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename local variable &apos;minimum&apos; in &apos;p3Arboles.AVLTree.findMin(...)&apos; to &apos;max&apos;&#x0D;&#x0A;- Original project: &apos;ED-2024-25-FernandezMedinaElias-UO299673&apos;&#x0D;&#x0A;- Original element: &apos;p3Arboles.AVLTree.findMin(AVLNode&lt;T&gt;).minimum&apos;&#x0D;&#x0A;- Renamed element: &apos;minimum&apos;&#x0D;&#x0A;- Update references to refactored element" description="Rename local variable &apos;minimum&apos;" id="org.eclipse.jdt.ui.rename.local.variable" input="/src&lt;p3Arboles{AVLTree.java[AVLTree~findMin~QAVLNode\&lt;QT;&gt;;@minimum!8390!8415!8401!8407!QAVLNode\&lt;QT;&gt;;!0!false" name="max" references="true" stamp="1733438608376" version="1.0"/>
+</session>

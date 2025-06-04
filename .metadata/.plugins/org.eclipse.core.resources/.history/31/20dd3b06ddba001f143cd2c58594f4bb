@@ -1,0 +1,179 @@
+package p4Hash;
+
+public class ClosedHashTable<T> extends AbstractHash<T> {
+    protected HashNode<T> associativeArray[];
+    protected int hashSize;
+    protected int numElems;
+
+    public static final int LINEAL = 0;
+    public static final int CUADRATICA = 1;
+    public static final int DOBLEHASH = 2;
+
+    protected int exploracion;
+    protected double fcDOWN;
+    protected double fcUP;
+
+    @SuppressWarnings("unchecked")
+    public ClosedHashTable(int tam, int expl) {
+        hashSize = tam;
+        associativeArray = (HashNode<T>[]) new HashNode[hashSize];
+        for (int i = 0; i < hashSize; i++) {
+            associativeArray[i] = new HashNode<>();
+        }
+        exploracion = expl;
+        fcDOWN = 0.16;
+        fcUP = 0.5;
+    }
+
+    public ClosedHashTable(int tam, double fcUP, double fcDOWN, int expl) {
+    	hashSize = tam;
+        associativeArray = (HashNode<T>[]) new HashNode[hashSize];
+        for (int i = 0; i < hashSize; i++) {
+            associativeArray[i] = new HashNode<>();
+        }
+        exploracion = expl;
+        this.fcDOWN = fcDOWN;
+        this.fcUP = fcUP;
+    }
+
+    @Override
+    public int getNumOfElems() {
+        return numElems;
+    }
+
+    @Override
+    public int getSize() {
+        return hashSize;
+    }
+
+    @Override
+    public boolean add(T elem) {
+        if (elem == null) {
+            throw new NullPointerException("Element cannot be null");
+        }
+        if ((double) numElems / hashSize > fcUP) {
+            reDispersion();
+        }
+
+        for (int i = 0; i < hashSize; i++) {
+            int pos = fExploracion(elem, i);
+            if (associativeArray[pos].getStatus() == HashNode.VACIO || associativeArray[pos].getStatus() == HashNode.BORRADO) {
+                associativeArray[pos].setInfo(elem);
+                numElems++;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public T find(T elem) {
+        if (elem == null) {
+            throw new NullPointerException("Element cannot be null");
+        }
+
+        for (int i = 0; i < hashSize; i++) {
+            int pos = fExploracion(elem, i);
+            if (associativeArray[pos].getStatus() == HashNode.VACIO) {
+                return null; // Element not found
+            }
+            if (associativeArray[pos].getStatus() == HashNode.LLENO && associativeArray[pos].getInfo().equals(elem)) {
+                return associativeArray[pos].getInfo();
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public boolean remove(T elem) {
+        if (elem == null) {
+            throw new NullPointerException("Element cannot be null");
+        }
+
+        for (int i = 0; i < hashSize; i++) {
+            int pos = fExploracion(elem, i);
+            if (associativeArray[pos].getStatus() == HashNode.VACIO) {
+                return false; // Element not found
+            }
+            if (associativeArray[pos].getStatus() == HashNode.LLENO && associativeArray[pos].getInfo().equals(elem)) {
+                associativeArray[pos].remove();
+                numElems--;
+                if ((double) numElems / hashSize < fcDOWN) {
+                    inverseReDispersion();
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
+    protected int fExploracion(T elem, int iteracion) {
+        int hash = fHash(elem);
+        switch (exploracion) {
+            case LINEAL:
+                return (hash + iteracion) % hashSize;
+            case CUADRATICA:
+                return (hash + iteracion * iteracion) % hashSize;
+            case DOBLEHASH:
+                int step = 1 + (Math.abs(elem.hashCode()) % (hashSize - 1));
+                return (hash + iteracion * step) % hashSize;
+            default:
+                throw new IllegalStateException("Exploration type not supported");
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    protected boolean reDispersion() {
+        int newSize = nextPrimeNumber(hashSize * 2);
+        HashNode<T>[] oldArray = associativeArray;
+        associativeArray = (HashNode<T>[]) new HashNode[newSize];
+        for (int i = 0; i < newSize; i++) {
+            associativeArray[i] = new HashNode<>();
+        }
+
+        hashSize = newSize;
+        numElems = 0;
+
+        for (HashNode<T> node : oldArray) {
+            if (node.getStatus() == HashNode.LLENO) {
+                add(node.getInfo());
+            }
+        }
+        return true;
+    }
+
+    @SuppressWarnings("unchecked")
+    protected boolean inverseReDispersion() {
+        int newSize = previousPrimeNumber(hashSize / 2);
+        HashNode<T>[] oldArray = associativeArray;
+        associativeArray = (HashNode<T>[]) new HashNode[newSize];
+        for (int i = 0; i < newSize; i++) {
+            associativeArray[i] = new HashNode<>();
+        }
+
+        hashSize = newSize;
+        numElems = 0;
+
+        for (HashNode<T> node : oldArray) {
+            if (node.getStatus() == HashNode.LLENO) {
+                add(node.getInfo());
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder cadena = new StringBuilder();
+        for (int i = 0; i < getSize(); i++) {
+            cadena.append(associativeArray[i]);
+            cadena.append(";");
+        }
+        cadena.append("[Size: ");
+        cadena.append(getSize());
+        cadena.append(" Num.Elems.: ");
+        cadena.append(getNumOfElems());
+        cadena.append("]");
+        return cadena.toString();
+    }
+}

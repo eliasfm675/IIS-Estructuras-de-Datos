@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="ImportExportAction">
+		<item key="ImportExportPage.STORE_SELECTED_IMPORT_WIZARD_ID" value="org.eclipse.ui.wizards.import.ExternalProject"/>
+		<item key="ImportExportPage.STORE_SELECTED_EXPORT_WIZARD_ID" value="org.eclipse.ui.wizards.export.ZipFile"/>
+		<list key="ImportExportPage.STORE_EXPANDED_IMPORT_CATEGORIES">
+			<item value="org.eclipse.ui.Basic"/>
+		</list>
+		<list key="ImportExportPage.STORE_EXPANDED_EXPORT_CATEGORIES">
+			<item value="org.eclipse.ui.Basic"/>
+		</list>
+	</section>
+	<section name="ZipFileExportWizard">
+		<item key="WizardZipFileResourceExportPage1.STORE_CREATE_STRUCTURE_ID" value="true"/>
+		<item key="WizardZipFileResourceExportPage1.STORE_COMPRESS_CONTENTS_ID" value="true"/>
+		<list key="WizardZipFileResourceExportPage1.STORE_DESTINATION_NAMES_ID">
+			<item value="C:\Users\Elías\OneDrive\Escritorio\Software\2do\ED-2024-25-FernandezMedinaElias-UO299673.zip"/>
+			<item value="E:\Software\2do\Examen ED II\ED-2024-25-FernandezMedinaElias-UO299673.zip"/>
+			<item value="C:\Users\Elías\OneDrive\Escritorio\Software\2do\ED\ED-2024-25-FernandezMedinaElias-UO299673-Arboles.zip"/>
+			<item value="C:\Users\Elías\OneDrive\Escritorio\Software\2do\ED\sesion09Task.zip"/>
+			<item value="C:\Users\Elías\OneDrive\Escritorio\Software\2do\ED\sesion08Task.zip"/>
+			<item value="C:\Users\Elías\OneDrive\Escritorio\Software\2do\ED\sesion07Task.zip"/>
+			<item value="C:\Users\Elías\OneDrive\Escritorio\Software\2do\ED_primerExamen.zip"/>
+			<item value="C:\Users\Elías\OneDrive\Escritorio\Software\2do\sesion07Examen.zip"/>
+			<item value="C:\Users\Elías\OneDrive\Escritorio\Software\2do\ED\sesion07PreExamen.zip"/>
+			<item value="C:\Users\Elías\OneDrive\Escritorio\Software\2do\ED\sesion06Task.zip"/>
+			<item value="C:\Users\Elías\OneDrive\Escritorio\Software\2do\ED\sesion05Task.zip"/>
+			<item value="C:\Users\Elías\Downloads\sesion05Task.zip"/>
+			<item value="C:\Users\Elías\OneDrive\Escritorio\Software\2do\ED\sesion04Task.zip"/>
+			<item value="C:\Users\Elías\OneDrive\Escritorio\Software\2do\ED\sesion03task.zip"/>
+			<item value="C:\Users\Elías\OneDrive\Escritorio\Software\2do\ED\proyecto1.zip"/>
+			<item value="C:\Users\Elías\OneDrive\Escritorio\Software\2do\ED\ED-2024-25-FernandezMedinaElias-UO2996731.zip"/>
+			<item value="C:\Users\Elías\OneDrive\Escritorio\Software\2do\ED\sesion01task.zip"/>
+			<item value="C:\Users\Elías\Downloads\edejsdelnestor.zip"/>
+		</list>
+	</section>
+	<section name="FileSystemImportWizard">
+	</section>
+</section>

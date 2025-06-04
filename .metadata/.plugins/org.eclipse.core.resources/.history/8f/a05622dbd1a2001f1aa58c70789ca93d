@@ -1,0 +1,126 @@
+package p3Arboles; 
+
+/** 
+* Clase derivada de BSTree añadiendo funcionalidad de AVL 
+* @author Profesores ED (Español) 
+* @version 2024-25 distribuible 
+*/ 
+public class AVLTree <T extends Comparable<T> >extends BSTree <T>{ 
+
+/** 
+* Constructor  
+*/ 
+public AVLTree() {
+	super();
+} 
+ 
+ 
+/* (non-Javadoc) 
+* @see BSTree#addNode(java.lang.Comparable) 
+* Redefine inserción para funcionalidad AVL 
+*/ 
+public boolean addNode (T node){
+	if(node==null) {
+		throw new NullPointerException("El nodo a a�adir es null");
+	}
+	try {
+	if(getRoot()==null) {
+		AVLNode<T> a =  new AVLNode<T>(node);
+		setRoot(a);
+		return true;
+	}else {
+		setRoot(addRecursivo(node,getRoot()));
+	}
+	}catch(IllegalArgumentException e) {
+		return false;
+	}
+	return true;
+} 
+private AVLNode<T> addRecursivo(T info, AVLNode<T> root) {
+
+	if(root==null) {
+		AVLNode<T> node = new AVLNode<T>(info);
+		updateAndBalanceIfNecesary(node);
+		root= new AVLNode<T>(info);
+		return root;
+	}else if(info.compareTo(root.getInfo())<0) {
+		addRecursivo(info, root.getLeft());
+	}else if(info.compareTo(root.getInfo())>0) {
+		addRecursivo(info, root.getRight());
+	}else {
+		throw new IllegalArgumentException();
+	}
+	return addRecursivo(info, root.getRight());
+	
+}
+ 
+ 
+/** 
+* se le pasa el arbol que se quiere actualizar Height, BF  
+*      y balancear si fuese necesario 
+* y devuelve la raiz del arbol por si ha cambiado 
+*/ 
+private AVLNode<T> updateAndBalanceIfNecesary (AVLNode<T> node){
+	if(node.getBF()==2) {
+		AVLNode<T> aux = node.getRight();
+		node.setRight(node);
+		node.updateHeight();
+		node=aux;
+		
+	}
+	return getRoot();
+} 
+ 
+ 
+/** 
+* Se le pasa la raiz del arbol a balancear con rotacion simple 
+* devuelve la raiz del nuevo arbol que ha cambiado 
+*/ 
+private AVLNode<T> singleLeftRotation (AVLNode<T> node ){
+	return null;
+} 
+ 
+ 
+/** 
+* Se le pasa la raiz del arbol a balancear con rotacion doble 
+* devuelve la raiz del nuevo arbol que ha cambiado 
+*/ 
+private AVLNode<T> doubleLeftRotation(AVLNode<T> node) {
+	return null;
+} 
+ 
+ 
+/** 
+* Se le pasa la raiz del arbol a balancear con rotacion simple 
+* devuelve la raiz del nuevo arbol que ha cambiado 
+*/ 
+private AVLNode<T> singleRightRotation (AVLNode<T> node){
+	return null;
+} 
+ 
+ 
+/** 
+* Se le pasa la raiz del arbol a balancear con rotacion doble 
+* Devuelve la raiz del nuevo arbol que ha cambiado 
+*/ 
+private AVLNode<T> doubleRightRotation(AVLNode<T> node) {
+	return null;
+} 
+ 
+ 
+/* (non-Javadoc) 
+* @see BSTree#removeNode(java.lang.Comparable) 
+* Redefinición para incluir características AVL 
+*/ 
+public boolean removeNode (T node){
+	return true;
+} 
+@Override
+public AVLNode<T> getRoot(){
+	return (AVLNode<T>) super.getRoot();
+}
+ 
+} 
+
+ 
+ 

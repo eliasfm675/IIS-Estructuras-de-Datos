@@ -1,0 +1,172 @@
+package p4Hash;
+
+
+/**
+ * @author Profesores ED
+ * @version 2024-25 distribuible
+ *
+ */
+public class ClosedHashTable<T> extends AbstractHash<T> {
+// IMPORTANTE
+//	No cambiar el nombre ni visibilidad de los atributos protected
+	
+	protected HashNode<T> associativeArray[]; 
+
+	protected int hashSize;	// tamaño de la tabla, debe ser un numero primo (B de teoria)
+	protected int numElems;	// numero de elementos en la tabla en cada momento.
+
+	public static final int LINEAL = 0;	// Tipo de exploracion en caso de colision, por defecto sera LINEAL
+	public static final int CUADRATICA = 1;
+	public static final int DOBLEHASH = 2;
+
+	protected int exploracion; //exploracion que se realizara en caso de colision (LINEAL por defecto)
+	
+	protected double fcDOWN;
+	protected double fcUP;
+
+	/**
+	 * Constructor para fijar el tamanio al numero primo >= que el parametro y el tipo de exploración al indicado
+	 * el tipo de exploracion(LINEAL=0, CUADRATICA=1, ...), si invalido LINEAL
+	 */
+	@SuppressWarnings("unchecked")
+	public ClosedHashTable(int tam, int expl) {
+		hashSize=nextPrimeNumber(tam);// Establece un tamanio valido si tam no es primo
+		
+		associativeArray = (HashNode<T>[]) new HashNode[hashSize]; // Crea el array de HashNode's
+		//			Completar lo que falta...
+		for(int i=0; i<hashSize; i++) {
+			associativeArray[i]=new HashNode<>();
+		}
+		exploracion = expl;
+		fcDOWN = 0.16;
+		fcUP = 0.5;
+
+	}
+
+	/**
+	 * Constructor para fijar el tamanio al numero primo >= que el parametro
+	 * Se le pasa el tamaño de la table Hash, si no es un numero primo lo ajusta al primo superior
+	 * el factor de carga limite, por encima del cual hay que redispersar (directa)
+	 * el factor de carga limite, por debajo del cual hay que redispersar (inversa)
+	 * el tipo de exploracion(LINEAL=0, CUADRATICA=1, ...), si invalido LINEAL
+	 */
+	public ClosedHashTable(int tam, double fcUP, double fcDOWN, int expl) { // Para la segunda clase
+		//			Completar lo que falta...
+	hashSize=nextPrimeNumber(tam);// Establece un tamanio valido si tam no es primo
+		
+		associativeArray = (HashNode<T>[]) new HashNode[hashSize]; // Crea el array de HashNode's
+		//			Completar lo que falta...
+		for(int i=0; i<hashSize; i++) {
+			associativeArray[i]=new HashNode<>();
+		}
+		exploracion = expl;
+		this.fcDOWN = fcDOWN;
+		this.fcUP = fcUP;
+		
+
+	}
+
+	@Override
+	public int getNumOfElems() {
+		return numElems;
+	}
+
+	@Override
+	public int getSize() {
+		return hashSize;
+	}
+
+	@Override
+	public boolean add(T elem) {
+		if(elem==null || numElems>=hashSize) {
+			return false;
+		}
+		int pos;
+		for(int i=0; i< hashSize; i++) {
+			pos = fExploracion(elem, i);
+			if(pos>=hashSize) {
+				return false;
+			}
+			if(associativeArray[pos].getStatus()==HashNode.VACIO || associativeArray[pos].getStatus()==HashNode.BORRADO) {
+				associativeArray[pos].setInfo(elem);
+				break;
+			}
+		}
+		numElems++;
+		return true;
+		
+	}
+
+	@Override
+	public T find(T elem) {
+		for(int i=0; i<numElems; i++) {
+			if(associativeArray[i].getInfo().equals(elem)) {
+				return elem;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public boolean remove(T elem) {
+	//			Completar lo que falta...
+		if(elem==null || numElems<=0 || find(elem)==null ) {
+			return false;
+		}
+		int pos;
+		for(int i=0; i<hashSize; i++) {
+			if(associativeArray[i].getInfo().equals(elem)) {
+				associativeArray[i].remove();
+			}
+		}
+		numElems--;
+		return true;
+	}
+
+	/**
+	 * Devuelve la posicion que le corresponde a la iteracion indicada en el parametro "iteracion",
+	 * de la funcion de exploracion definida en la tabla (atributo exploracion), que le corresponde al elemento del parametro "elem".
+	 * Notese que si la iteracion es 0, el resultado seria fHash(elem)
+	 */
+	protected int fExploracion(T elem, int iteracion){
+		if(exploracion==LINEAL) {
+			int pos = fHash(elem);
+			return pos+iteracion;
+		}else if(exploracion==CUADRATICA) {
+			return (fHash(elem)+iteracion*iteracion) % getSize();
+		}else {
+			return -1;
+		}
+	
+	}
+
+	@SuppressWarnings("unchecked")
+	protected boolean reDispersion () { // Para la segunda clase
+	//			Completar lo que falta...
+		return true;
+	}
+
+	@SuppressWarnings("unchecked")
+	protected boolean inverseReDispersion() { // Para la segunda clase
+	//			Completar lo que falta...
+		return true;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString (){
+		StringBuilder cadena=new StringBuilder();
+		for (int i=0;i< getSize();i++){
+			cadena.append(associativeArray[i]);
+			cadena.append(";");
+		}
+		cadena.append("[Size: ");
+		cadena.append(getSize());
+		cadena.append(" Num.Elems.: ");
+		cadena.append(getNumOfElems());
+		cadena.append("]");
+		return cadena.toString();
+	}
+}

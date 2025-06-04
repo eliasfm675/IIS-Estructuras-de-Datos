@@ -1,0 +1,135 @@
+Fecha y hora: 2024-11-08T15:20:01.012168100
+Arbol prueba 1 despues de addNode(100):
+100
+
+Fecha y hora: 2024-11-08T16:51:00.207909400
+Arbol prueba 1 despues de addNode(100):
+100
+
+Fecha y hora: 2024-11-08T16:51:59.340116
+Arbol prueba 1 despues de addNode(100):
+100
+
+Fecha y hora: 2024-11-15T15:17:56.298849700
+Arbol prueba 1 despues de addNode(100):
+100
+
+Arbol prueba 2 despues de addNode(50):
+100
+	50
+
+Arbol prueba 3 despues de addNode(150):
+	150
+100
+	50
+
+Arbol prueba 4 despues de addNode(70):
+	150
+100
+		70
+	50
+
+Arbol prueba 5 despues de addNode(60):
+	150
+100
+		70
+			60
+	50
+
+Arbol prueba 6 despues de addNode(30):
+	150
+100
+		70
+			60
+	50
+		30
+
+Arbol prueba 7 despues de addNode(200):
+		200
+	150
+100
+		70
+			60
+	50
+		30
+
+Arbol prueba 8 despues de addNode(90):
+		200
+	150
+100
+			90
+		70
+			60
+	50
+		30
+
+Arbol prueba 9 despues de addNode(120):
+		200
+	150
+		120
+100
+			90
+		70
+			60
+	50
+		30
+
+Arbol prueba 10 despues de addNode(170):
+		200
+			170
+	150
+		120
+100
+			90
+		70
+			60
+	50
+		30
+
+Arbol prueba 11 despues de addNode(210):
+			210
+		200
+			170
+	150
+		120
+100
+			90
+		70
+			60
+	50
+		30
+
+Arbol prueba ADD final preOrder():
+1005030706090150120200170210
+Arbol prueba ADD final inOrder():
+3050607090100120150170200210
+Arbol prueba ADD final postOrder():
+3060907050120170210200150100
+
+Arbol prueba 12 despues de addNode(60) que ya existe:
+			210
+		200
+			170
+	150
+		120
+100
+			90
+		70
+			60
+	50
+		30
+
+El nodo a añadir es null
+Arbol prueba 13 despues de addNode(null):
+			210
+		200
+			170
+	150
+		120
+100
+			90
+		70
+			60
+	50
+		30
+

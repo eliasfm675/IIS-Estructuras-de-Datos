@@ -1,0 +1,242 @@
+package p3Arboles;
+
+/**
+* @author Prodesores ED (EspaÃ±ol)
+* @version 2024-25 distribuible
+*/
+public class BSTree <T extends Comparable<T>> extends AbstractTree <T>{
+
+/**
+ * getter del nodo raiz del arbol
+ */
+protected BSTNode<T> getRoot() {
+	return (BSTNode<T>) super.getRoot();
+}
+
+
+/**
+ * Se le pasa el objeto comparable que hay que insertar
+ * devuelve true si lo inserta
+ * Si ya existe, no lo inserta y devuelve false (implementado mas tarde). 
+ * Si recibe un nodo nulo, no lo inserta y lanza una NullPointerException
+ */
+public boolean addNode(T info) {
+	if(info==null) {
+		throw new NullPointerException("El nodo a añadir es null");
+	}
+	try {
+	if(this.getRoot()==null) {
+		this.setRoot(new BSTNode(info));
+		return true;
+	}else {
+		addRecursivo(info, getRoot());
+	}
+	}catch(IllegalArgumentException e) {
+		return false;
+	}
+	return true;
+}
+
+//
+//private void addRecursivo(T info, BSTNode<T> root) {
+//
+//	if(root==null) {
+//		root = new BSTNode<>(info);
+//		
+//	}else if(info.compareTo(root.getInfo())<0) {
+//		addRecursivo(info, root.getLeft());
+//	}else if(info.compareTo(root.getInfo())>0) {
+//		addRecursivo(info, root.getRight());
+//	}else {
+//		throw new IllegalArgumentException();
+//	}
+//	
+//}
+
+private void addRecursivo(T info, BSTNode<T> root) {
+    // Caso en el que info es menor que el nodo actual
+    if (info.compareTo(root.getInfo()) < 0) {
+        // Si el subárbol izquierdo está vacío, inserta el nuevo nodo aquí
+        if (root.getLeft() == null) {
+            root.setLeft(new BSTNode<>(info));
+        } else {
+            // Llama recursivamente en el subárbol izquierdo
+            addRecursivo(info, root.getLeft());
+        }
+    }
+    // Caso en el que info es mayor que el nodo actual
+    else if (info.compareTo(root.getInfo()) > 0) {
+        // Si el subárbol derecho está vacío, inserta el nuevo nodo aquí
+        if (root.getRight() == null) {
+            root.setRight(new BSTNode<>(info));
+        } else {
+            // Llama recursivamente en el subárbol derecho
+            addRecursivo(info, root.getRight());
+        }
+    }
+    // Si info es igual al nodo actual, lanza una excepción (ya existe)
+    else {
+        throw new IllegalArgumentException("El nodo ya existe en el árbol");
+    }
+}
+
+
+//**
+//* Se le pasa un objeto comparable que se busca
+//* Devuelve el objeto encontrado que cumple que es "equals" con el
+//* buscado, null si no lo encuentra por cualquier motivo
+//*/
+public T searchNode(T info) {
+	if(this.getRoot()==null) {
+		return null;
+	}else {
+		return searchRecursivo(info, getRoot());
+	}
+}
+
+
+private T searchRecursivo(T info, BSTNode<T> root) {
+    if (root == null) {
+        return null;  // Caso base: el nodo no se encontró en este camino
+    } else if (info.compareTo(root.getInfo()) == 0) {
+        return root.getInfo();  // Nodo encontrado
+    } else if (info.compareTo(root.getInfo()) < 0) {
+        // Buscar en el subárbol izquierdo
+        return searchRecursivo(info, root.getLeft());
+    } else {
+        // Buscar en el subárbol derecho
+        return searchRecursivo(info, root.getRight());
+    }
+}
+
+
+
+///**
+//* Genera un String con el recorrido en pre-orden (izquierda-derecha)
+//* (toString de los nodos con un tabulador detras de cada nodo)
+//*/
+public String preOrder() {
+	if(getRoot()==null) {
+		return "";
+	}
+	return recursivoPreOrden(getRoot());
+}
+
+
+private String recursivoPreOrden(BSTNode<T> root) {
+	if(root==null) {
+		return "";
+	}
+	StringBuilder sb = new StringBuilder();
+	sb.append(root);
+	sb.append(recursivoPreOrden(root.getLeft()));
+	sb.append(recursivoPreOrden(root.getRight()));
+	return sb.toString();
+}
+
+
+///**
+//* Genera un String con el recorrido en post-orden (izquierda-derecha)
+//* (toString de los nodos con un tabulador detras de cada nodo)
+//*/
+public String postOrder() {
+	if(getRoot()==null) {
+		return "";
+	}
+	return recursivoPostOrden(getRoot());
+}
+
+private String recursivoPostOrden(BSTNode<T> root) {
+	if(root==null) {
+		return "";
+	}
+	StringBuilder sb = new StringBuilder();
+	sb.append(recursivoPostOrden(root.getLeft()));
+	sb.append(recursivoPostOrden(root.getRight()));
+	sb.append(root);
+	return sb.toString();
+}
+
+
+//
+///**
+//* Genera un String con el recorrido en in-orden (izquierda-derecha)
+//* (toString de los nodos con un tabulador detras de cada nodo)
+//*/
+public String inOrder() { 
+		if(getRoot()==null) {
+			return "";
+		}
+		return recursivoInOrder(getRoot());
+	}
+
+
+private String recursivoInOrder(BSTNode<T> root) {
+	if(root==null) {
+		return "";
+	}
+	StringBuilder sb = new StringBuilder();
+	sb.append(recursivoInOrder(root.getLeft()));
+	sb.append(root);
+	sb.append(recursivoInOrder(root.getRight()));
+	return sb.toString();
+}
+
+
+/**
+* Se le pasa el objeto que se quiere borrar que coincida con equals
+* Si recibe un nodo nulo, lanza una NullPointerException
+* Devuelve true si lo ha borrado, false caso contrario
+*/
+@Override
+public boolean removeNode(T x) {
+	// TODO Auto-generated method stub
+	if(x==null) {
+		throw new NullPointerException("Nodo recibido es null");
+	}
+	if(getRoot()==null) {
+		return false;
+	}
+	if(searchNode(x)!=null){
+		this.setRoot(removeNodeRecursivo(x, getRoot()));
+		return true;
+	}
+	return false;
+}
+
+
+private AbstractTreeNode<T> removeNodeRecursivo(T x, BSTNode<T> root) {
+	if(root==null) {
+		return null;
+	} 
+	if(x.compareTo(root.getInfo())<0) {
+		root.setLeft(removeNodeRecursivo(x, root.getLeft()));
+	}else if(x.compareTo(root.getInfo())>0) {
+		root.setRight(removeNodeRecursivo(x, root.getRight()));
+	}else {
+		if(root.getLeft()==null && root.getRight()==null) {
+			return null;
+		}
+		else if(root.getLeft()==null) {
+			return root.getRight();
+		}
+		else if(root.getRight()==null) {
+			return root.getLeft();
+		}else {
+			BSTNode<T> succesor = findMin(root.getRight());
+			root.setInfo(succesor.getInfo());
+			root.setRight(removeNodeRecursivo(succesor.getInfo(), root.getRight()));
+		}
+	}
+	return root;
+}
+
+
+private BSTNode<T> findMin(BSTNode<T> right) {
+	BSTNode<T> minimum = right;
+	while(minimum.getLeft()!=null) {
+		minimum = minimum.getLeft();
+	}
+	return minimum;
+}
+}

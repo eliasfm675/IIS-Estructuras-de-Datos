@@ -1,0 +1,197 @@
+package p3Arboles;
+
+/**
+ * Clase derivada de BSTree añadiendo funcionalidad de AVL.
+ * @param <T> el tipo de elemento comparable
+ */
+public class AVLTree<T extends Comparable<T>> extends BSTree<T> {
+
+    /**
+     * Constructor
+     */
+    public AVLTree() {
+        super();
+    }
+
+    /**
+     * Inserta un nodo en el árbol, ajustando el equilibrio si es necesario.
+     * @param node el valor del nodo a insertar
+     * @return true si el nodo se inserta correctamente, false si ya existe
+     */
+    @Override
+    public boolean addNode(T node) {
+        if (node == null) {
+            throw new NullPointerException("El nodo a añadir es null");
+        }
+        try {
+            setRoot(addRecursivo(node, getRoot())); // Actualiza la raíz después de la inserción
+        } catch (IllegalArgumentException e) {
+            return false; // El nodo ya existe
+        }
+        return true;
+    }
+
+    private AVLNode<T> addRecursivo(T info, AVLNode<T> root) {
+        if (root == null) {
+            return new AVLNode<>(info); // Crea un nuevo nodo AVL
+        }
+
+        int compare = info.compareTo(root.getInfo());
+
+        // Inserta en el subárbol izquierdo
+        if (compare < 0) {
+            root.setLeft(addRecursivo(info, root.getLeft()));
+        }
+        // Inserta en el subárbol derecho
+        else if (compare > 0) {
+            root.setRight(addRecursivo(info, root.getRight()));
+        }
+        // El valor ya existe en el árbol
+        else {
+            throw new IllegalArgumentException("El nodo ya existe");
+        }
+
+        // Actualiza altura y equilibra si es necesario
+        return updateAndBalanceIfNecesary(root);
+    }
+
+    /**
+     * Actualiza el factor de balance y realiza las rotaciones necesarias.
+     * @param node el nodo a evaluar y balancear
+     * @return la nueva raíz del subárbol después de posibles rotaciones
+     */
+    private AVLNode<T> updateAndBalanceIfNecesary(AVLNode<T> node) {
+        node.updateHeight(); // Actualiza la altura del nodo actual
+        int bf = node.getBF(); // Calcula el factor de balance
+
+        // Caso de rotación simple a la derecha (BF = +2 y subárbol izquierdo es "pesado")
+        if (bf == 2) {
+            if (node.getLeft().getBF() >= 0) {
+                return singleRightRotation(node);
+            } else {
+                return doubleRightRotation(node);
+            }
+        }
+
+        // Caso de rotación simple a la izquierda (BF = -2 y subárbol derecho es "pesado")
+        if (bf == -2) {
+            if (node.getRight().getBF() <= 0) {
+                return singleLeftRotation(node);
+            } else {
+                return doubleLeftRotation(node);
+            }
+        }
+
+        return node; // No se requiere rotación
+    }
+
+    /**
+     * Realiza una rotación simple a la derecha.
+     * @param node el nodo desbalanceado
+     * @return la nueva raíz del subárbol balanceado
+     */
+    private AVLNode<T> singleRightRotation(AVLNode<T> node) {
+        AVLNode<T> leftChild = node.getLeft();
+        node.setLeft(leftChild.getRight());
+        leftChild.setRight(node);
+        node.updateHeight();
+        leftChild.updateHeight();
+        return leftChild; // Nueva raíz después de la rotación
+    }
+
+    /**
+     * Realiza una rotación simple a la izquierda.
+     * @param node el nodo desbalanceado
+     * @return la nueva raíz del subárbol balanceado
+     */
+    private AVLNode<T> singleLeftRotation(AVLNode<T> node) {
+        AVLNode<T> rightChild = node.getRight();
+        node.setRight(rightChild.getLeft());
+        rightChild.setLeft(node);
+        node.updateHeight();
+        rightChild.updateHeight();
+        return rightChild; // Nueva raíz después de la rotación
+    }
+
+    /**
+     * Realiza una rotación doble a la derecha.
+     * @param node el nodo desbalanceado
+     * @return la nueva raíz del subárbol balanceado
+     */
+    private AVLNode<T> doubleRightRotation(AVLNode<T> node) {
+        node.setLeft(singleLeftRotation(node.getLeft()));
+        return singleRightRotation(node);
+    }
+
+    /**
+     * Realiza una rotación doble a la izquierda.
+     * @param node el nodo desbalanceado
+     * @return la nueva raíz del subárbol balanceado
+     */
+    private AVLNode<T> doubleLeftRotation(AVLNode<T> node) {
+        node.setRight(singleRightRotation(node.getRight()));
+        return singleLeftRotation(node);
+    }
+
+    /**
+     * Elimina un nodo del árbol, ajustando el equilibrio si es necesario.
+     * @param node el valor del nodo a eliminar
+     * @return true si el nodo se elimina correctamente, false si no se encuentra
+     */
+    @Override
+    public boolean removeNode(T node) {
+        if (node == null) {
+            throw new NullPointerException("Nodo recibido es null");
+        }
+        if (searchNode(node) == null) {
+            return false; // El nodo no existe
+        }
+        setRoot(removeNodeRecursivo(node, getRoot())); // Actualiza la raíz después de la eliminación
+        return true;
+    }
+
+    private AVLNode<T> removeNodeRecursivo(T info, AVLNode<T> root) {
+        if (root == null) {
+            return null;
+        }
+
+        int compare = info.compareTo(root.getInfo());
+
+        // Busca el nodo en el subárbol izquierdo
+        if (compare < 0) {
+            root.setLeft(removeNodeRecursivo(info, root.getLeft()));
+        }
+        // Busca el nodo en el subárbol derecho
+        else if (compare > 0) {
+            root.setRight(removeNodeRecursivo(info, root.getRight()));
+        }
+        // Nodo encontrado
+        else {
+            if (root.getLeft() == null || root.getRight() == null) {
+                // Caso de nodo hoja o con un solo hijo
+                root = (root.getLeft() != null) ? root.getLeft() : root.getRight();
+            } else {
+                // Nodo con dos hijos: encuentra el sucesor en orden
+                AVLNode<T> successor = findMin(root.getRight());
+                root.setInfo(successor.getInfo());
+                root.setRight(removeNodeRecursivo(successor.getInfo(), root.getRight()));
+            }
+        }
+        if (root != null) {
+            root = updateAndBalanceIfNecesary(root); // Rebalancea el árbol
+        }
+        return root;
+    }
+
+    private AVLNode<T> findMin(AVLNode<T> node) {
+        while (node.getLeft() != null) {
+            node = node.getLeft();
+        }
+        return node;
+    }
+
+    @Override
+    public AVLNode<T> getRoot() {
+        return (AVLNode<T>) super.getRoot();
+    }
+}

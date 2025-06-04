@@ -1,0 +1,23 @@
+package p3Arboles;
+
+public class main {
+	public static void main(String[] args) {
+		BSTree t = new BSTree<Integer>();
+		t.addNode(6);
+		t.addNode(1);
+		t.addNode(5);
+		t.addNode(3);
+		t.addNode(2);
+		t.addNode(4);
+		//System.out.println(t.searchNode(6));
+		//System.out.println(t.toString());
+		//System.out.println(t.preOrder());
+		//System.out.println(t.postOrder());
+		//System.out.println(t.inOrder());
+		t.removeNode(6);
+		t.removeNode(1);
+		t.removeNode(3);
+		t.removeNode(5);
+		System.out.println(t.toString());
+	}
+}
